@@ -1,0 +1,43 @@
+{% extends 'shows/base.html' %}
+
+{% block title %}All Shows{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>All Shows</h1>
+    <a href="{% url 'shows:shows_new' %}" class="add-show-link">+ Add a New Show</a>
+</div>
+
+{% if shows %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Network</th>
+            <th>Release Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for show in shows %}
+        <tr>
+            <td>{{ show.id }}</td>
+            <td>{{ show.title }}</td>
+            <td>{{ show.network }}</td>
+            <td>{{ show.get_formatted_date }}</td>
+            <td>
+                <div class="action-links">
+                    <a href="{% url 'shows:show_detail' show.id %}">Show</a>
+                    <a href="{% url 'shows:shows_edit' show.id %}">Edit</a>
+                    <a href="{% url 'shows:shows_delete' show.id %}" class="btn-danger">Delete</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p style="margin-top: 20px;">No shows found. <a href="{% url 'shows:shows_new' %}">Create one</a>!</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'shows/base.html' %}
+
+{% block title %}Edit Show {{ show.id }}{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Edit Show {{ show.id }}</h1>
+    <a href="{% url 'shows:show_detail' show.id %}" class="go-back">Go Back</a>
+</div>
+
+<form method="POST" action="{% url 'shows:shows_update' show.id %}">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" class="form-input" value="{{ old_data.title }}">
+        {% if errors.title %}
+        <div class="error-message">{{ errors.title }}</div>
+        {% endif %}
+    </div>
+
+    <div style="display: flex; gap: 20px;">
+        <div class="form-group" style="flex: 1;">
+            <label for="network">Network</label>
+            <input type="text" id="network" name="network" class="form-input" value="{{ old_data.network }}">
+            {% if errors.network %}
+            <div class="error-message">{{ errors.network }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group" style="flex: 1;">
+            <label for="release_date">Release Date</label>
+            <input type="date" id="release_date" name="release_date" class="form-input" value="{{ old_data.release_date }}">
+            {% if errors.release_date %}
+            <div class="error-message">{{ errors.release_date }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" class="form-textarea">{{ old_data.description }}</textarea>
+        {% if errors.description %}
+        <div class="error-message">{{ errors.description }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="button-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'shows:show_detail' show.id %}" class="btn">Cancel</a>
+    </div>
+</form>
+
+<p style="margin-top: 30px;">
+    <a href="{% url 'shows:show_detail' show.id %}" style="color: #0066cc;">Go to Show</a>
+</p>
+{% endblock %}
